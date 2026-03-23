@@ -2,7 +2,7 @@
 
 A tiny outliner for Markdown bullet lists in Neovim.
 
-<video src="https://github.com/user-attachments/assets/5e786e2f-8c17-45dc-9505-39cc817b6f5d" width="700" controls muted></video>
+<video src="https://github.com/satozawa/graft.nvim/raw/main/assets/demo.mp4" width="700" controls muted></video>
 
 Nested bullets are a nice way to organize thoughts. graft lets you move, select, and operate on them as subtrees.
 
