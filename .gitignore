@@ -1,10 +1,4 @@
 .DS_Store
-.superpowers/
-.mcp.json
-.claude/
-CLAUDE.md
-CONFIDENTIAL-*
-plans/CONFIDENTIAL-*
 __pycache__/
 *.pyc
 node_modules/
