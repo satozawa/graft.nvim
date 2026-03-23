@@ -7,3 +7,4 @@ demo/*.mp4
 demo/package.json
 demo/package-lock.json
 .local/
+CLAUDE.local.md
