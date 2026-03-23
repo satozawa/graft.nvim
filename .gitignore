@@ -1,0 +1,15 @@
+.DS_Store
+.superpowers/
+.mcp.json
+.claude/
+CLAUDE.md
+CONFIDENTIAL-*
+plans/CONFIDENTIAL-*
+__pycache__/
+*.pyc
+node_modules/
+demo/*.webm
+demo/*.mp4
+demo/package.json
+demo/package-lock.json
+.local/

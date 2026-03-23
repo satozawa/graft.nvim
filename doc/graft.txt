@@ -1,0 +1,185 @@
+*graft.txt*    Tree-aware outliner for Markdown bullet lists
+
+==============================================================================
+CONTENTS                                                      *graft-contents*
+
+  1. Introduction ............................ |graft-introduction|
+  2. Text Objects ............................ |graft-textobjects|
+  3. Motions ................................. |graft-motions|
+  4. Structure Operations .................... |graft-operations|
+  5. Bullet Continuation ..................... |graft-bullets|
+  6. Smart Paste ............................. |graft-paste|
+  7. Fold .................................... |graft-fold|
+  8. Checkbox ................................ |graft-checkbox|
+  9. Configuration ........................... |graft-configuration|
+
+==============================================================================
+1. INTRODUCTION                                           *graft-introduction*
+
+graft.nvim provides Vim-grammar text objects and operators for manipulating
+nested Markdown bullet list outlines using TreeSitter.
+
+Your lists are trees. `dag` prunes a subtree. `>ag` pushes it deeper.
+`]g` jumps to the next branch. Edit structure, not lines.
+
+Requirements:
+- Neovim >= 0.10
+- Tree-sitter markdown parser
+
+==============================================================================
+2. TEXT OBJECTS                                           *graft-textobjects*
+
+                                                                          *ag*
+ag                      Select current list item and all descendant items
+                        (full subtree). Linewise.
+
+                                                                          *ig*
+ig                      Select descendants only, excluding the current
+                        item's own line. Linewise.
+
+                                                                          *iG*
+iG                      Select direct children only (first nested list),
+                        not grandchildren. Linewise.
+
+Compose with any operator: `dag` delete, `yag` yank, `cag` change,
+`>ag` indent, `<ag` outdent, `vag` visual select.
+
+==============================================================================
+3. MOTIONS                                                   *graft-motions*
+
+                                                                     *]g* *[g*
+]g / [g                 Jump to next / previous sibling at same depth.
+                        Accepts count: 3]g skips 2 siblings.
+
+                                                                     *]G* *[G*
+]G / [G                 Jump to first child (deeper) / parent (shallower).
+                        Accepts count: 2[G goes up 2 levels.
+
+==============================================================================
+4. STRUCTURE OPERATIONS                                  *graft-operations*
+
+                                                        *<Plug>(graft-move-up)*
+<Plug>(graft-move-up)   Swap current subtree with previous sibling.
+                        Dot-repeatable.
+
+                                                      *<Plug>(graft-move-down)*
+<Plug>(graft-move-down) Swap current subtree with next sibling.
+                        Dot-repeatable.
+
+                                                       *<Plug>(graft-promote)*
+<Plug>(graft-promote)   Promote (outdent) current subtree by shiftwidth.
+                        No-op at top level. Dot-repeatable.
+
+                                                        *<Plug>(graft-demote)*
+<Plug>(graft-demote)    Demote (indent) current subtree by shiftwidth.
+                        Requires a previous sibling (orphan prevention).
+                        Dot-repeatable.
+
+                                                      *graft-alt-hjkl*
+Alt+hjkl                Default keybindings for structure operations.
+                        Work in both Normal and Insert mode.
+                        Insert mode stays in Insert after the operation.
+
+  Alt+h   Promote (outdent) subtree
+  Alt+j   Move subtree down
+  Alt+k   Move subtree up
+  Alt+l   Demote (indent) subtree
+
+Requires terminal configured with Option-as-Meta.
+Ghostty: `macos-option-as-alt = left`
+
+Promote/demote also work via Vim operators: `>ag` / `<ag`.
+
+==============================================================================
+5. BULLET CONTINUATION                                      *graft-bullets*
+
+                                                         *graft-enter*
+<CR> (Normal)           Create new sibling bullet after current subtree.
+                        Skips all children (subtree skip). Enters Insert.
+
+<CR> (Insert)           Split text at cursor. Remainder goes to new sibling
+                        after subtree. Empty bullet: removes the line and
+                        returns to Normal mode.
+
+                                                         *graft-o*
+o (Normal)              If item has children: create first child (before
+                        existing children, auto-unfolds if folded).
+                        If leaf: create sibling below.
+                        Enters Insert mode.
+
+                                                         *graft-O*
+O (Normal)              Create sibling above with same marker.
+                        Checked checkboxes become unchecked.
+                        Enters Insert mode.
+
+Bullet markers are inherited: `-` produces `-`, `*` produces `*`,
+checkboxes produce unchecked `- [ ]`, ordered lists increment.
+Child items from `o` always get `- ` (never numbered).
+
+==============================================================================
+6. SMART PASTE                                                *graft-paste*
+
+                                                              *graft-]p*
+]p                      Paste with automatic indent adjustment.
+                        Adjusts pasted list content to match the indent
+                        level of the cursor's current list context.
+                        Falls through to native ]p for non-list content.
+
+==============================================================================
+7. FOLD                                                        *graft-fold*
+
+graft sets `foldmethod=expr` with a custom `foldexpr` based on list item
+depth. Items with children can be folded.
+
+  za    Toggle fold
+  zc    Close fold
+  zo    Open fold
+  zM    Close all folds
+  zR    Open all folds
+
+Folded lines display `+` instead of `-` via custom `foldtext`.
+All folds start open (foldlevel=99).
+
+==============================================================================
+8. CHECKBOX                                                *graft-checkbox*
+
+                                                                     *[x*
+[x                      Check: `- [ ]` becomes `- [x]`.
+                        No-op on non-checkbox lines.
+
+                                                                     *]x*
+]x                      Uncheck: `- [x]` becomes `- [ ]`.
+                        No-op on non-checkbox lines.
+
+==============================================================================
+9. CONFIGURATION                                       *graft-configuration*
+
+>lua
+  require('graft').setup({
+    set_shiftwidth = true,     -- Set shiftwidth=2 for markdown buffers
+    normalize_tabs = false,    -- Replace tabs with spaces on attach
+    warn_odd_indent = true,    -- Warn about non-2-space indentation
+    keymaps = {
+      around_graft = "ag",
+      inner_graft = "ig",
+      inner_graft_shallow = "iG",
+      next_sibling = "]g",
+      prev_sibling = "[g",
+      first_child = "]G",
+      parent = "[G",
+      check = "[x",
+      uncheck = "]x",
+    },
+  })
+<
+
+Structure operations (Alt+hjkl), bullet continuation (Enter/o/O),
+smart paste (]p), and fold are always enabled. Text objects, motions,
+and checkbox keys can be remapped via the keymaps table.
+
+                                                      *graft-textobjects-scm*
+For nvim-treesitter-textobjects users, graft registers:
+  @graft.outer    (list_item)
+  @graft.inner    (list_item containing a nested list)
+
+ vim:tw=78:ts=8:ft=help:norl:
