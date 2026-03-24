@@ -1,4 +1,9 @@
 .DS_Store
+.superpowers/
+.mcp.json
+.claude/
+CONFIDENTIAL-*
+plans/CONFIDENTIAL-*
 __pycache__/
 *.pyc
 node_modules/
@@ -7,3 +12,4 @@ demo/*.mp4
 demo/package.json
 demo/package-lock.json
 .local/
+CLAUDE.local.md
