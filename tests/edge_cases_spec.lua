@@ -1,6 +1,5 @@
 -- Edge case tests across multiple graft modules
 local h = require("tests.helpers")
-local tree = require("graft.tree")
 local operations = require("graft.operations")
 local bullets = require("graft.bullets")
 

@@ -17,11 +17,6 @@ describe("tree", function()
     "- three",
   }
 
-  local sample_task = {
-    "- [x] done",
-    "- [ ] todo",
-  }
-
   local sample_ordered = {
     "1. first",
     "2. second",

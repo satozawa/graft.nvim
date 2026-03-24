@@ -87,7 +87,7 @@ end
 --- Sets window-local fold options. NOT guarded by graft_attached because
 --- fold settings are window-local and must be set for each window.
 --- @param bufnr integer Buffer number (unused, settings are window-local)
-function M.attach(bufnr) -- luacheck: ignore 212
+function M.attach(_bufnr) -- luacheck: ignore 212
   vim.wo.foldmethod = "expr"
   vim.wo.foldexpr = "v:lua.require'graft.fold'.foldexpr(v:lnum)"
   vim.wo.foldtext = "v:lua.require'graft.fold'.foldtext()"
