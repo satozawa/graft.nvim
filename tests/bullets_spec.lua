@@ -1,7 +1,6 @@
 -- Tests for graft.bullets (Enter, o, O, checkbox toggle)
 local h = require("tests.helpers")
 local bullets = require("graft.bullets")
-local tree = require("graft.tree")
 
 describe("bullets", function()
   local buf

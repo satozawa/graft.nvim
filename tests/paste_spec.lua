@@ -1,6 +1,5 @@
 local helpers = require("tests.helpers")
 local paste = require("graft.paste")
-local tree = require("graft.tree")
 
 describe("paste", function()
   local buf
