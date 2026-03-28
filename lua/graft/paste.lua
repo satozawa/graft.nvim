@@ -29,8 +29,7 @@ local ORDERED_PATTERN = "^%s*%d+[.)]%s"
 function M.is_list_content(lines)
   for _, line in ipairs(lines) do
     if line:match("%S") then
-      return line:match(UNORDERED_PATTERN) ~= nil
-        or line:match(ORDERED_PATTERN) ~= nil
+      return line:match(UNORDERED_PATTERN) ~= nil or line:match(ORDERED_PATTERN) ~= nil
     end
   end
   return false
