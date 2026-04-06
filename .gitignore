@@ -1,9 +1,3 @@
-.DS_Store
-.superpowers/
-.mcp.json
-.claude/
-CONFIDENTIAL-*
-plans/CONFIDENTIAL-*
 __pycache__/
 *.pyc
 node_modules/
@@ -11,5 +5,12 @@ demo/*.webm
 demo/*.mp4
 demo/package.json
 demo/package-lock.json
+
+# Claude Code
+.claude/worktrees/
+.claude/*.local*
+*.local.json
+*.local.md
+
+# Agent scratch
 .local/
-CLAUDE.local.md
