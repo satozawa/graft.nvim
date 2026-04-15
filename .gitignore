@@ -5,10 +5,10 @@ demo/*.webm
 demo/*.mp4
 demo/package.json
 demo/package-lock.json
+.DS_Store
 
 # Claude Code
-.claude/worktrees/
-.claude/*.local*
+.claude/
 *.local.json
 *.local.md
 

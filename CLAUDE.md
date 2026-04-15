@@ -58,6 +58,6 @@ nvim --headless -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/minimal
 
 Every text object and motion gets at least one test with sample markdown.
 
-## Local Files
+## Local File Rules
 
-`.local/` and `.claude/` are local-only and must never be added to git.
+.local/ is local-only and must never be git added. Research logs, design notes, experiment code, and anything not required for build/run/test belong in .local/. .claude/ is also excluded from git.
